@@ -24,10 +24,12 @@ window.onload=function() {
         cloudsContainerDiv = getE("clouds"); // Cloud effect container
 
     let pokeData, // JSON Data
-        openSearch = false, // Prevent enter key after searching when ball was open (prevent multiple enter hits)
-        isBallOpen = false, // Ball control
-        isBallMoving = false;
+        pokeTypes = []; // Type holder
 
+    let openSearch = false, // Prevent enter key after searching when ball was open (prevent multiple enter hits)
+        isBallOpen = false, // Ball control
+        isBallMoving = false,
+        statsCurrentlyOpen = false;
 
 
 
@@ -38,7 +40,6 @@ window.onload=function() {
     document.head.appendChild(cloudCSS);
     document.head.appendChild(questionCSS);
     document.head.appendChild(animationCSS);
-
 
 
 
@@ -69,7 +70,6 @@ window.onload=function() {
 
 
 
-
     // XMLHttp vars
     let pokeAPI = new XMLHttpRequest();
     pokeAPI.timeout = 10000;
@@ -81,20 +81,30 @@ window.onload=function() {
         if (pokeAPI.response === null) {
             pokeError("That's an imaginary Pokémon....");
         } else {
+
             pokeData = pokeAPI.response;
+
             writeHint("Here are your results....");
+
             let pokeImg = pokeData.sprites || [];
             pokeImg.front_default = pokeImg.front_default || "../resources/pokeWhat.png";
+
+            pokeTypes = []; // Clear previous types
+            pokeData.types.forEach(function(typeName) {
+                pokeTypes.push(typeName);
+            });
+
             openBall(pokeImg.front_default);
         }
     };
+
     pokeAPI.onerror = function() {
         pokeError("That didn't work. Try something else....");
     };
+
     pokeAPI.ontimeout = function() {
         pokeError("No one answered the door to your search request....");
     };
-
 
 
 
@@ -321,6 +331,8 @@ window.onload=function() {
     // Open Pokemon Stats
     function openStats() {
 
+        if (statsCurrentlyOpen) return;
+
         pokemonStats["infoName"]["Data"].innerHTML = pokeData.name;
         pokemonStats["infoWeight"]["Data"].innerHTML = pokeData.weight;
         pokemonStats["infoHeight"]["Data"].innerHTML = pokeData.height;
@@ -344,10 +356,14 @@ window.onload=function() {
 
 
         });
+        statsCurrentlyOpen = true;
     }
 
     // Close Pokemon Stats
     function closeStats() {
+
+        if (!(statsCurrentlyOpen)) return;
+
         Object.keys(pokemonStats).forEach(function(statNode) {
 
             statNode = pokemonStats[statNode];
@@ -365,6 +381,7 @@ window.onload=function() {
             void statNode.Bar.offsetWidth;
 
         });
+        statsCurrentlyOpen = false
     }
 
     // Open pokeball
