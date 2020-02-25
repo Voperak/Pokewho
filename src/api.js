@@ -28,6 +28,9 @@ window.onload=function() {
         isBallOpen = false, // Ball control
         isBallMoving = false;
 
+
+
+
     // Dynamic CSS vars
     const cloudCSS = document.createElement("style");
     const questionCSS = document.createElement("style");
@@ -35,6 +38,9 @@ window.onload=function() {
     document.head.appendChild(cloudCSS);
     document.head.appendChild(questionCSS);
     document.head.appendChild(animationCSS);
+
+
+
 
     let pokemonStats = [
         "infoName",
@@ -61,6 +67,9 @@ window.onload=function() {
     }
     pokemonStats = createStats(pokemonStats);
 
+
+
+
     // XMLHttp vars
     let pokeAPI = new XMLHttpRequest();
     pokeAPI.timeout = 10000;
@@ -85,6 +94,9 @@ window.onload=function() {
     pokeAPI.ontimeout = function() {
         pokeError("No one answered the door to your search request....");
     };
+
+
+
 
     // Remove dynamic CSS
     function removeCSS(customCSS) {
@@ -317,13 +329,19 @@ window.onload=function() {
 
             statNode = pokemonStats[statNode];
 
-            // Set up pokeball
-            //statNode.Ball.style.animationDelay = statNode.Delay + "s";
-            //statNode.Ball.classList.add("openRollPokeball");
+            // Roll out pokeball
+            statNode.Ball.style.animationDelay = statNode.Delay + "s";
+            if ((statNode.Ball.classList.contains("closeRollPokeball"))) statNode.Ball.classList.remove("closeRollPokeball");
+            if (!(statNode.Ball.classList.contains("openRollPokeball"))) statNode.Ball.classList.add("openRollPokeball");
+            void statNode.Ball.offsetWidth;
 
-            // Set up stat bar
+            // Open stat bar
             statNode.Bar.style.animationDelay = statNode.Delay + "s";
-            statNode.Bar.classList.add("openInfoBar");
+            if ((statNode.Bar.classList.contains("closeInfoBar"))) statNode.Bar.classList.remove("closeInfoBar");
+            if (!(statNode.Bar.classList.contains("openInfoBar"))) statNode.Bar.classList.add("openInfoBar");
+            void statNode.Bar.offsetWidth;
+
+
 
         });
     }
@@ -334,13 +352,17 @@ window.onload=function() {
 
             statNode = pokemonStats[statNode];
 
-            // Set up pokeball
-            //statNode.Ball.style.animationDelay = statNode.Delay + "s";
-            //statNode.Ball.classList.add("closeRollPokeball");
+            // Close pokeball
+            statNode.Ball.style.animationDelay = statNode.Delay + "s";
+            if ((statNode.Ball.classList.contains("openRollPokeball"))) statNode.Ball.classList.remove("openRollPokeball");
+            if (!(statNode.Ball.classList.contains("closeRollPokeball"))) statNode.Ball.classList.add("closeRollPokeball");
+            void statNode.Ball.offsetWidth;
 
-            // Set up stat bar
+            // Close information stat bar
             statNode.Bar.style.animationDelay = statNode.Delay + "s";
-            statNode.Bar.classList.add("closeInfoBar");
+            if ((statNode.Bar.classList.contains("openInfoBar"))) statNode.Bar.classList.remove("openInfoBar");
+            if (!(statNode.Bar.classList.contains("closeInfoBar"))) statNode.Bar.classList.add("closeInfoBar");
+            void statNode.Bar.offsetWidth;
 
         });
     }

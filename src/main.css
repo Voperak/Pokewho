@@ -73,11 +73,11 @@ body {
     color: lightgoldenrodyellow;
     text-shadow:
             2px 2px 2px dimgray,
-            3px 3px 2px black;
+            3px 3px 1px black;
 
     animation-duration: .75s;
     animation-timing-function: ease-in-out;
-    animation-fill-mode: forwards;
+    animation-fill-mode: both;
 }
 
 /* Close/open info bar animation triggers */
@@ -144,7 +144,7 @@ body {
     }
     100% {
         right: calc(-1.4em + 100%);
-        transform: rotate(720deg);
+        transform: rotate(-720deg);
     }
 }
 
@@ -168,7 +168,7 @@ body {
 
     animation-duration: .75s;
     animation-timing-function: ease-in-out;
-    animation-fill-mode: forwards;
+    animation-fill-mode: both;
 }
 
 .infoName {
@@ -177,7 +177,7 @@ body {
     width: 100%;
 
     padding-left: .2em;
-    margin-left: 2em;
+    margin-left: 1em;
     color: rgba(255, 81, 80, 1);
 }
 
@@ -185,7 +185,7 @@ body {
     position: relative;
     display: inline;
     padding-right: .2em;
-    margin-right: 2.5em;
+    margin-right: 2em;
 }
 
 #infoName {
