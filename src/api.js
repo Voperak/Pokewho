@@ -53,7 +53,7 @@ window.onload=function() {
                 "Ball" : firstClass(statNode, ["infoPokeball"]),
                 "Bar" : firstClass(statNode, ["infoContainer"]),
                 "Data" : firstClass(statNode, ["infoContainer", "infoData"]),
-                "Delay" : index * .15,
+                "Delay" : index * .10,
             };
         });
 
@@ -317,26 +317,13 @@ window.onload=function() {
 
             statNode = pokemonStats[statNode];
 
-            statNode.style.animation = "mn";
-
             // Set up pokeball
-            if (!(statNode.Ball.classList.contains("rollPokeball"))) {
-                statNode.Ball.classList.add("rollPokeball");
-            } else {
-                statNode.Ball.style.animation = null;
-                statNode.Ball.style.animation = "";
-            }
-            statNode.Ball.style.animationDelay = statNode.Delay + "s";
-
+            //statNode.Ball.style.animationDelay = statNode.Delay + "s";
+            //statNode.Ball.classList.add("openRollPokeball");
 
             // Set up stat bar
             statNode.Bar.style.animationDelay = statNode.Delay + "s";
             statNode.Bar.classList.add("openInfoBar");
-            statNode.Bar.addEventListener("animationend", function() {
-                statNode.Bar.classList.remove("closedInfoBar");
-            });
-
-
 
         });
     }
@@ -348,16 +335,12 @@ window.onload=function() {
             statNode = pokemonStats[statNode];
 
             // Set up pokeball
-            statNode.Ball.style.animationDelay = statNode.Delay + "s";
-            statNode.Ball.classList.remove("rollPokeball");
-            statNode.Ball.classList.add("rollPokeball");
+            //statNode.Ball.style.animationDelay = statNode.Delay + "s";
+            //statNode.Ball.classList.add("closeRollPokeball");
 
             // Set up stat bar
             statNode.Bar.style.animationDelay = statNode.Delay + "s";
             statNode.Bar.classList.add("closeInfoBar");
-            statNode.Bar.addEventListener("animationend", function() {
-                statNode.Bar.classList.remove("openInfoBar");
-            });
 
         });
     }
