@@ -1,23 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Pokéwho</title>
 
     <link rel="stylesheet" type="text/css" href="main.css">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="api.js"></script>
 </head>
+
 <body>
 
-    <div id="main">
-        <div id="informationContainer">
+    <div id="leftInfo" class="infoBox">
 
-
-
+        <div id="infoName" class="infoBar">
+            <div class="infoPokeball openRollPokeball closeRollPokeball"></div>
+            <div class="infoContainer openInfoBar closeInfoBar">
+                <span class="infoName">Name:</span>
+                <span class="infoData"></span>
+            </div>
         </div>
-        <input id="searchBox" >
+        <div id="infoWeight" class="infoBar">
+            <div class="infoPokeball openRollPokeball closeRollPokeball"></div>
+            <div class="infoContainer openInfoBar closeInfoBar">
+                <span class="infoName">Weight:</span>
+                <span class="infoData"></span>
+            </div>
+        </div>
+        <div id="infoHeight" class="infoBar">
+            <div class="infoPokeball openRollPokeball closeRollPokeball"></div>
+            <div class="infoContainer openInfoBar closeInfoBar">
+                <span class="infoName">Height:</span>
+                <span class="infoData"></span>
+            </div>
+        </div>
     </div>
 
-    <div id="bottomInfo"></div>
+    <div id="types" class=""></div>
+
+    <div id="rightInfo" class="infoBox"></div>
+
+    <div id="pokeBall">
+        <div id="clouds" class="pokeball"></div>
+
+        <div id="topBall" class="pokeball"></div>
+        <div id="bottomBall" class="pokeball"></div>
+
+        <div id="bottomBallContainer">
+            <div id="pokemon">
+                <div id="questionMarks1"></div>
+                <div id="questionMarks2"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="searchInput">
+        <input id="searchBox" type="text" spellcheck="false">
+        <div id="hintText"></div>
+    </div>
 
 </body>
 </html>
