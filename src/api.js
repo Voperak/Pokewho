@@ -58,8 +58,8 @@ window.onload=function() {
             let statNode = document.getElementById(statName);
             statData[statName] = {
                 "Ball" : firstClass(statNode, ["infoPokeball"]),
-                "Bar" : firstClass(statNode, ["infoContainer"]),
-                "Data" : firstClass(statNode, ["infoContainer", "infoData"]),
+                "Bar" : firstClass(statNode, ["infoBar"]),
+                "Data" : firstClass(statNode, ["infoBar", "infoData"]),
                 "Delay" : index * .10,
             };
         });
@@ -214,7 +214,7 @@ window.onload=function() {
             let cloudDiv = document.createElement("div");
             cloudDiv.id = "cloud" + iCloud;
 
-            let startY = randomNum(0, 40) - 15,
+            let startY = randomNum(0, 60) - 15,
                 startX = randomNum(25, 75),
                 actualX = startX - 40; // Center clouds more
 
