@@ -43,24 +43,26 @@ window.onload=function() {
 
 
 
-    let pokemonStats = [
-        "infoName",
-        "infoWeight",
-        "infoHeight",
-    ];
+    // Element ID, int delay multiplier
+    let pokemonStats = {
+        "infoName" : 1,
+        "infoWeight" : 2,
+        "infoHeight" : 3,
+        "infoTypes" : 1,
+    };
 
     // Pokemon stat object table
     function createStats(nameID = []) {
 
         let statData = [];
-        nameID.forEach(function(statName, index) {
+        Object.keys(nameID).forEach((statName) => {
 
-            let statNode = document.getElementById(statName);
+            let statNode = getE(statName);
             statData[statName] = {
                 "Ball" : firstClass(statNode, ["infoPokeball"]),
                 "Bar" : firstClass(statNode, ["infoBar"]),
                 "Data" : firstClass(statNode, ["infoBar", "infoData"]),
-                "Delay" : index * .10,
+                "Delay" : nameID[statName] * .10,
             };
         });
 
@@ -337,6 +339,13 @@ window.onload=function() {
         pokemonStats["infoWeight"]["Data"].innerHTML = pokeData.weight;
         pokemonStats["infoHeight"]["Data"].innerHTML = pokeData.height;
 
+        let pokeTypes = "";
+        pokeData.types.forEach(function(pokeType) {
+            pokeTypes = pokeTypes + pokeType.type.name + ", ";
+        });
+        pokeTypes = pokeTypes.slice(0, -2);
+        pokemonStats["infoTypes"]["Data"].innerHTML = pokeTypes;
+
         Object.keys(pokemonStats).forEach((statNode) => {
 
             statNode = pokemonStats[statNode];
@@ -404,7 +413,7 @@ window.onload=function() {
 
         // Finalize pokeball
         setTimeout(function () {
-            topBall.style.top = "-1.4%";
+            topBall.style.top = "0";
             topBall.classList.remove("openPokeball");
             isBallMoving = false;
         }, 1500)
@@ -425,7 +434,7 @@ window.onload=function() {
 
         // Reset ball (in safe time)
         setTimeout(function () {
-            topBall.style.top = "35%";
+            topBall.style.top = "20vmin";
             topBall.classList.remove("closePokeball");
             isBallMoving = false;
             if (requestOnClose) requestPokemon();

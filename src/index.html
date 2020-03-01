@@ -12,38 +12,10 @@
 
 <body>
 
-    <div id="leftInfo" class="infoBox">
-
-        <div id="infoName" class="infoContainer">
-            <div class="infoPokeball"></div>
-            <div class="infoBar">
-                <span class="infoName">Name:</span>
-                <span class="infoData"></span>
-            </div>
-        </div>
-        <div id="infoWeight" class="infoContainer">
-            <div class="infoPokeball"></div>
-            <div class="infoBar">
-                <span class="infoName">Weight:</span>
-                <span class="infoData"></span>
-            </div>
-        </div>
-        <div id="infoHeight" class="infoContainer">
-            <div class="infoPokeball"></div>
-            <div class="infoBar">
-                <span class="infoName">Height:</span>
-                <span class="infoData"></span>
-            </div>
-        </div>
-    </div>
-
-    <div id="types" class=""></div>
-
-    <div id="rightInfo" class="infoBox"></div>
 
     <div id="pokeBall">
-        <div id="clouds" class="pokeball"></div>
 
+        <div id="clouds" class="pokeball"></div>
         <div id="topBall" class="pokeball"></div>
         <div id="bottomBall" class="pokeball"></div>
 
@@ -53,6 +25,74 @@
                 <div id="questionMarks2"></div>
             </div>
         </div>
+
+    </div>
+
+    <div id="leftInfoWrapper">
+
+        <div id="leftInfoBuffer"></div>
+
+        <div id="leftInfo" class="infoBox">
+
+            <div id="infoName" class="infoContainer">
+                <div class="infoPokeball"></div>
+                <div class="infoBar">
+                    <span class="infoName">Name:</span>
+                    <span class="infoData"></span>
+                </div>
+            </div>
+
+            <div id="infoWeight" class="infoContainer">
+                <div class="infoPokeball"></div>
+                <div class="infoBar">
+                    <span class="infoName">Weight:</span>
+                    <span class="infoData"></span>
+                </div>
+            </div>
+
+            <div id="infoHeight" class="infoContainer">
+                <div class="infoPokeball"></div>
+                <div class="infoBar">
+                    <span class="infoName">Height:</span>
+                    <span class="infoData"></span>
+                </div>
+            </div>
+
+            <table id="infoStatsTable">
+                <tr>
+                    <th id="infoStatsHeader" colspan=2>Stats</th>
+                </tr>
+                <tr>
+                    <td class="infoStatName">HP:</td>
+                    <td id="infoHP" class="infoStatData"></td>
+                </tr>
+                <tr>
+                    <td class="infoStatName">Speed:</td>
+                    <td id="infoSpeed" class="infoStatData"></td>
+                </tr>
+                <tr>
+                    <td class="infoStatName">Attack:</td>
+                    <td id="infoAttack" class="infoStatData"></td>
+                </tr>
+                <tr>
+                    <td class="infoStatName">Special Attack:</td>
+                    <td id="infoSpecAttack" class="infoStatData"></td>
+                </tr>
+                <tr>
+                    <td class="infoStatName">Defense:</td>
+                    <td id="infoDefense" class="infoStatData"></td>
+                </tr>
+                <tr>
+                    <td class="infoStatName">Special Defense:</td>
+                    <td id="infoSpecDefense" class="infoStatData"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="rightInfoWrapper">
+        <div id="rightInfoBuffer"></div>
+        <div id="rightInfo" class="infoBox"></div>
     </div>
 
     <div id="searchInput">
@@ -60,7 +100,17 @@
         <div id="hintText"></div>
     </div>
 
-    <div id="bottomInfo"></div>
+    <div id="bottomInfo">
+
+        <div id="infoTypes" class="infoContainer">
+            <div class="infoPokeball"></div>
+            <div class="infoBar">
+                <span class="infoName">Types:</span>
+                <span class="infoData"></span>
+            </div>
+        </div>
+
+    </div>
 
 </body>
 </html>
