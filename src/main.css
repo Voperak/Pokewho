@@ -72,7 +72,6 @@ body {
     float: right;
     width: 50%;
     z-index: 0;
-    outline: 5px blue dashed;
 }
 
 #rightInfoBuffer {
@@ -86,7 +85,6 @@ body {
     display: inline-block;
     width: min-content;
     float: right;
-    outline: 3px red solid;
 }
 
 
@@ -201,32 +199,43 @@ body {
 }
 
 /* Stats table */
-#infoStatsTable {
+#infoStatsWrapper {
     position: relative;
     display: block;
-
-    width: min-content;
+    left: -3em;
     margin-top: 1.5em;
     margin-bottom: 1.5em;
-    left: -3em;
+    width: fit-content;
+    font-size: 1.2em;
+}
 
+#infoStatsContainer {
+    overflow: hidden;
+    max-height: 1.6em;
+    width: 0;
+
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+
+    background-color: rgba(255,0,0,.5);
+    border: .2em solid rgba(55, 71, 79, 1);
+    border-radius: 1.5em;
+    box-shadow:.3em .3em .3em rgba(0,0,0,.4);
+}
+
+#infoStatsTable {
     border-spacing: 0 .3em;
+    margin-right: .5em;
 
     font-family: pixelFont, serif;
-    font-size: 1.2em;
     white-space: nowrap;
 
     color: rgba(0, 0, 0, .85);
     text-shadow:white 0 0 5px, white 1px 1px 0;
-
-    background-color: rgba(255,0,0,.5);
-    border: .2em solid rgba(55, 71, 79, 1);
-    border-radius: 2em;
-    box-shadow:.3em .3em .3em rgba(0,0,0,.4);
 }
 
 #infoStatsHeader {
-
     padding-left: 3em;
     border-bottom: .2em solid rgba(55, 71, 79, 1);
     padding-bottom: .4em;
@@ -242,14 +251,7 @@ body {
             2px 2px 4px dimgray,
             2px 2px 2px black;
 
-    padding-right: 2.2em;
-}
-
-/* Right side info */
-#infoTypes {
-
-    outline: 6px green solid;
-
+    padding-right: .2em;
 }
 
 
@@ -265,8 +267,6 @@ body {
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
-
-    outline: 5px red solid;
 }
 
 /* Search/hint */
@@ -321,14 +321,12 @@ body {
     font-size: larger;
 }
 
-/* Pokeball */
+/* Big Pokeball itself */
 #pokeball {
     position: relative;
 
     width: 32vmin;
     height: 52vmin;
-
-    outline: 3px blue solid;
 }
 
 .pokeball {
@@ -390,7 +388,7 @@ body {
     height: 30%;
 }
 
-/* Pokeball animations */
+/* Big Pokeball animations */
 .questionMarkAnimate {
     position: absolute;
     color: black;
@@ -430,13 +428,35 @@ body {
 
 
 
-/* Info Animation triggers */
-.openInfoBar {
-    animation-name: openInfoBar;
+/* Info Animation */
+@keyframes openInfoStats {
+    0% {
+        width: 0;
+        max-height: 1.6em;
+    }
+    75% {
+        width: 100%;
+        max-height: 1.6em;
+    }
+    100% {
+        width: 100%;
+        max-height: 12em;
+    }
 }
 
-.closeInfoBar {
-    animation-name: closeInfoBar;
+@keyframes closeInfoStats {
+    0% {
+        width: 100%;
+        max-height: 12em;
+    }
+    25% {
+        width: 100%;
+        max-height: 1.6em;
+    }
+    100% {
+        width: 0;
+        max-height: 1.6em;
+    }
 }
 
 @keyframes closeInfoBar {
@@ -457,22 +477,6 @@ body {
     }
 }
 
-.openRollPokeball {
-    animation-name: openRollPokeball;
-}
-
-.closeRollPokeball {
-    animation-name: closeRollPokeball;
-}
-
-/* Right side */
-.openRightRollPokeball {
-    animation-name: openRightRollPokeball;
-}
-
-.closeRightRollPokeball {
-    animation-name: closeRightRollPokeball;
-}
 
 /* Roll pokeball animation */
 @keyframes openRollPokeball {

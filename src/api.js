@@ -23,8 +23,19 @@ window.onload=function() {
         qMarksRight = getE("questionMarks2"),
         cloudsContainerDiv = getE("clouds"); // Cloud effect container
 
-    let pokeData, // JSON Data
-        pokeTypes = []; // Type holder
+    // Starting stat data divs
+    let statsTable = {
+        "container" : getE("infoStatsContainer"),
+        "ball" : firstClass(getE("infoStatsWrapper"), ["infoPokeball"]),
+        "speed" : getE("infoSpeed"),
+        "hp" : getE("infoHP"),
+        "attack" : getE("infoAttack"),
+        "special-attack" : getE("infoSpecAttack"),
+        "defense" : getE("infoDefense"),
+        "special-defense" : getE("infoSpecDefense"),
+    };
+
+    let pokeData; // JSON Data
 
     let openSearch = false, // Prevent enter key after searching when ball was open (prevent multiple enter hits)
         isBallOpen = false, // Ball control
@@ -70,44 +81,6 @@ window.onload=function() {
         return statData;
     }
     pokemonStats = createStats(pokemonStats);
-
-
-
-    // XMLHttp vars
-    let pokeAPI = new XMLHttpRequest();
-    pokeAPI.timeout = 10000;
-    pokeAPI.responseType = "json";
-
-    // XMLHttp funcs
-    pokeAPI.onload = function() {
-
-        if (pokeAPI.response === null) {
-            pokeError("That's an imaginary Pokémon....");
-        } else {
-
-            pokeData = pokeAPI.response;
-
-            writeHint("Here are your results....");
-
-            let pokeImg = pokeData.sprites || [];
-            pokeImg.front_default = pokeImg.front_default || "../resources/pokeWhat.png";
-
-            pokeTypes = []; // Clear previous types
-            pokeData.types.forEach(function(typeName) {
-                pokeTypes.push(typeName);
-            });
-
-            openBall(pokeImg.front_default);
-        }
-    };
-
-    pokeAPI.onerror = function() {
-        pokeError("That didn't work. Try something else....");
-    };
-
-    pokeAPI.ontimeout = function() {
-        pokeError("No one answered the door to your search request....");
-    };
 
 
 
@@ -298,14 +271,42 @@ window.onload=function() {
     }
     writeHint("Just type in a name and press enter....");
 
-    // Start API request
+    // Start API request using fetch()
     function requestPokemon() {
         let currentInput = userInput.value.trim();
         if (currentInput === "") {
             pokeError("Type in a name....");
         } else {
-            pokeAPI.open("GET", "https://pokeapi.co/api/v2/pokemon/" + currentInput, true);
-            pokeAPI.send();
+
+            fetch("https://pokeapi.co/api/v2/pokemon/" + currentInput, {method: "GET"})
+                .then(function(response) {
+                    const contentType = response.headers.get('content-type');
+                    if (!contentType || !contentType.includes('application/json')) {
+                        pokeError("That's an imaginary Pokémon....");
+                    }
+                    return response.json();
+                })
+                .then(function(data) {
+
+                    pokeData = data;
+
+                    writeHint("Here are your results....");
+
+                    let pokeImg = pokeData.sprites || [];
+                    pokeImg.front_default = pokeImg.front_default || "../resources/pokeWhat.png";
+
+                    pokeTypes = []; // Clear previous types
+                    pokeData.types.forEach(function(typeName) {
+                        pokeTypes.push(typeName);
+                    });
+
+                    openBall(pokeImg.front_default);
+
+                })
+                .catch(function() {
+                    if (!contentType || !contentType.includes('application/json')) return;
+                    pokeError("That didn't work. Try something else....");
+                });
         }
     }
 
@@ -331,16 +332,14 @@ window.onload=function() {
         curIsError = false;
     }
 
-    // Open Pokemon Stats
-    function openStats() {
+    // Set current data
+    function setStatData() {
 
-        if (statsCurrentlyOpen) return;
-
-        // Set data
         // Name/Weight/Height
         pokemonStats["infoName"]["Data"].innerHTML = pokeData.name;
         pokemonStats["infoWeight"]["Data"].innerHTML = pokeData.weight;
         pokemonStats["infoHeight"]["Data"].innerHTML = pokeData.height;
+
         // Types
         let pokeTypes = "";
         pokeData.types.forEach(function(pokeType) {
@@ -348,8 +347,20 @@ window.onload=function() {
         });
         pokeTypes = pokeTypes.slice(0, -2);
         pokemonStats["infoTypes"]["Data"].innerHTML = pokeTypes;
-        // Starting Stats
 
+        pokeData.stats.forEach(function(node) {
+            statsTable[node.stat.name].innerHTML = node.base_stat;
+        });
+    }
+
+    // Open Pokemon Stats
+    function openStats() {
+
+        console.log(pokeData.moves);
+
+        if (statsCurrentlyOpen) return;
+
+        setStatData(); // Set new data
 
         Object.keys(pokemonStats).forEach((statNode) => {
 
@@ -360,21 +371,28 @@ window.onload=function() {
 
             // Roll out pokeball
             if (statNode.Wrapper.parentNode.id === "leftInfo") {
-                if ((statNode.Ball.classList.contains("closeRollPokeball"))) statNode.Ball.classList.remove("closeRollPokeball");
-                if (!(statNode.Ball.classList.contains("openRollPokeball"))) statNode.Ball.classList.add("openRollPokeball");
+                statNode.Ball.style.animationName = "openRollPokeball";
             } else {
-                if ((statNode.Ball.classList.contains("closeRightRollPokeball"))) statNode.Ball.classList.remove("closeRightRollPokeball");
-                if (!(statNode.Ball.classList.contains("openRightRollPokeball"))) statNode.Ball.classList.add("openRightRollPokeball");
+                statNode.Ball.style.animationName = "openRightRollPokeball";
             }
 
             // Open stat bar
-            if ((statNode.Bar.classList.contains("closeInfoBar"))) statNode.Bar.classList.remove("closeInfoBar");
-            if (!(statNode.Bar.classList.contains("openInfoBar"))) statNode.Bar.classList.add("openInfoBar");
+            statNode.Bar.style.animationName = "openInfoBar";
 
             void statNode.Ball.offsetWidth;
             void statNode.Bar.offsetWidth;
 
         });
+
+        // Starting Stat Custom Animation
+        statsTable.ball.style.animationDelay = ".3s";
+        statsTable.container.style.animationDelay =  ".3s";
+
+        statsTable.ball.style.animationName = "openRollPokeball";
+        statsTable.container.style.animationName = "openInfoStats";
+        void statsTable.ball.offsetWidth;
+        void statsTable.container.offsetWidth;
+
         statsCurrentlyOpen = true;
     }
 
@@ -392,22 +410,25 @@ window.onload=function() {
 
             // Close pokeball
             if (statNode.Wrapper.parentNode.id === "leftInfo") {
-                if ((statNode.Ball.classList.contains("openRollPokeball"))) statNode.Ball.classList.remove("openRollPokeball");
-                if (!(statNode.Ball.classList.contains("closeRollPokeball"))) statNode.Ball.classList.add("closeRollPokeball");
+                statNode.Ball.style.animationName = "closeRollPokeball";
             } else {
-                if ((statNode.Ball.classList.contains("openRightRollPokeball"))) statNode.Ball.classList.remove("openRightRollPokeball");
-                if (!(statNode.Ball.classList.contains("closeRightRollPokeball"))) statNode.Ball.classList.add("closeRightRollPokeball");
+                statNode.Ball.style.animationName = "closeRightRollPokeball";
             }
 
             // Open stat bar
-            if ((statNode.Bar.classList.contains("openInfoBar"))) statNode.Bar.classList.remove("openInfoBar");
-            if (!(statNode.Bar.classList.contains("closeInfoBar"))) statNode.Bar.classList.add("closeInfoBar");
+            statNode.Bar.style.animationName = "closeInfoBar";
 
             void statNode.Ball.offsetWidth;
             void statNode.Bar.offsetWidth;
-
-
         });
+
+        // Starting Stat Custom Animation
+        statsTable.container.style.animationDelay = ".05s";
+        statsTable.ball.style.animationName = "closeRollPokeball";
+        statsTable.container.style.animationName = "closeInfoStats";
+        void statsTable.ball.offsetWidth;
+        void statsTable.container.offsetWidth;
+
         statsCurrentlyOpen = false
     }
 
