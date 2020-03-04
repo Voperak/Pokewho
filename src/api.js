@@ -59,6 +59,7 @@ window.onload=function() {
 
             let statNode = getE(statName);
             statData[statName] = {
+                "Wrapper" : statNode,
                 "Ball" : firstClass(statNode, ["infoPokeball"]),
                 "Bar" : firstClass(statNode, ["infoBar"]),
                 "Data" : firstClass(statNode, ["infoBar", "infoData"]),
@@ -335,34 +336,43 @@ window.onload=function() {
 
         if (statsCurrentlyOpen) return;
 
+        // Set data
+        // Name/Weight/Height
         pokemonStats["infoName"]["Data"].innerHTML = pokeData.name;
         pokemonStats["infoWeight"]["Data"].innerHTML = pokeData.weight;
         pokemonStats["infoHeight"]["Data"].innerHTML = pokeData.height;
-
+        // Types
         let pokeTypes = "";
         pokeData.types.forEach(function(pokeType) {
             pokeTypes = pokeTypes + pokeType.type.name + ", ";
         });
         pokeTypes = pokeTypes.slice(0, -2);
         pokemonStats["infoTypes"]["Data"].innerHTML = pokeTypes;
+        // Starting Stats
+
 
         Object.keys(pokemonStats).forEach((statNode) => {
 
             statNode = pokemonStats[statNode];
 
-            // Roll out pokeball
             statNode.Ball.style.animationDelay = statNode.Delay + "s";
-            if ((statNode.Ball.classList.contains("closeRollPokeball"))) statNode.Ball.classList.remove("closeRollPokeball");
-            if (!(statNode.Ball.classList.contains("openRollPokeball"))) statNode.Ball.classList.add("openRollPokeball");
-            void statNode.Ball.offsetWidth;
+            statNode.Bar.style.animationDelay = statNode.Delay + "s";
+
+            // Roll out pokeball
+            if (statNode.Wrapper.parentNode.id === "leftInfo") {
+                if ((statNode.Ball.classList.contains("closeRollPokeball"))) statNode.Ball.classList.remove("closeRollPokeball");
+                if (!(statNode.Ball.classList.contains("openRollPokeball"))) statNode.Ball.classList.add("openRollPokeball");
+            } else {
+                if ((statNode.Ball.classList.contains("closeRightRollPokeball"))) statNode.Ball.classList.remove("closeRightRollPokeball");
+                if (!(statNode.Ball.classList.contains("openRightRollPokeball"))) statNode.Ball.classList.add("openRightRollPokeball");
+            }
 
             // Open stat bar
-            statNode.Bar.style.animationDelay = statNode.Delay + "s";
             if ((statNode.Bar.classList.contains("closeInfoBar"))) statNode.Bar.classList.remove("closeInfoBar");
             if (!(statNode.Bar.classList.contains("openInfoBar"))) statNode.Bar.classList.add("openInfoBar");
+
+            void statNode.Ball.offsetWidth;
             void statNode.Bar.offsetWidth;
-
-
 
         });
         statsCurrentlyOpen = true;
@@ -377,17 +387,25 @@ window.onload=function() {
 
             statNode = pokemonStats[statNode];
 
-            // Close pokeball
             statNode.Ball.style.animationDelay = statNode.Delay + "s";
-            if ((statNode.Ball.classList.contains("openRollPokeball"))) statNode.Ball.classList.remove("openRollPokeball");
-            if (!(statNode.Ball.classList.contains("closeRollPokeball"))) statNode.Ball.classList.add("closeRollPokeball");
-            void statNode.Ball.offsetWidth;
-
-            // Close information stat bar
             statNode.Bar.style.animationDelay = statNode.Delay + "s";
+
+            // Close pokeball
+            if (statNode.Wrapper.parentNode.id === "leftInfo") {
+                if ((statNode.Ball.classList.contains("openRollPokeball"))) statNode.Ball.classList.remove("openRollPokeball");
+                if (!(statNode.Ball.classList.contains("closeRollPokeball"))) statNode.Ball.classList.add("closeRollPokeball");
+            } else {
+                if ((statNode.Ball.classList.contains("openRightRollPokeball"))) statNode.Ball.classList.remove("openRightRollPokeball");
+                if (!(statNode.Ball.classList.contains("closeRightRollPokeball"))) statNode.Ball.classList.add("closeRightRollPokeball");
+            }
+
+            // Open stat bar
             if ((statNode.Bar.classList.contains("openInfoBar"))) statNode.Bar.classList.remove("openInfoBar");
             if (!(statNode.Bar.classList.contains("closeInfoBar"))) statNode.Bar.classList.add("closeInfoBar");
+
+            void statNode.Ball.offsetWidth;
             void statNode.Bar.offsetWidth;
+
 
         });
         statsCurrentlyOpen = false
@@ -442,6 +460,22 @@ window.onload=function() {
     }
 
 
+    // Right/left buffer size updates for data container wrapping
+    const pokeballWrapper = getE("pokeballWrapper");
+    const leftInfoWrapper = getE("leftInfoWrapper");
+    const leftBuffer = getE("leftInfoBuffer");
+    const rightBuffer = getE("rightInfoBuffer");
+    let currentHeight;
+
+    // Size checker/updater
+    setInterval(function() {
+
+        if (!(pokeballWrapper.clientHeight === currentHeight)) {
+            currentHeight = pokeballWrapper.clientHeight;
+            leftBuffer.style.height = currentHeight + "px";
+        }
+        rightBuffer.style.height = leftInfoWrapper.clientHeight + "px"; // Keep right buffer wrap as long as left (prevent wrap overlap)
+    }, 10);
 
     // Event for enter in search bar
     userInput.addEventListener("keyup", function (event) {

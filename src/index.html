@@ -13,26 +13,32 @@
 <body>
 
 
-    <div id="pokeBall">
+    <div id="pokeballWrapper">
 
-        <div id="clouds" class="pokeball"></div>
-        <div id="topBall" class="pokeball"></div>
-        <div id="bottomBall" class="pokeball"></div>
+        <div id="pokeball">
 
-        <div id="bottomBallContainer">
-            <div id="pokemon">
-                <div id="questionMarks1"></div>
-                <div id="questionMarks2"></div>
+            <div id="clouds" class="pokeball"></div>
+            <div id="topBall" class="pokeball"></div>
+            <div id="bottomBall" class="pokeball"></div>
+
+            <div id="bottomBallContainer">
+                <div id="pokemon">
+                    <div id="questionMarks1"></div>
+                    <div id="questionMarks2"></div>
+                </div>
             </div>
+
         </div>
 
+        <div id="searchInput">
+            <input id="searchBox" type="text" spellcheck="false">
+            <div id="hintText"></div>
+        </div>
     </div>
 
     <div id="leftInfoWrapper">
-
         <div id="leftInfoBuffer"></div>
-
-        <div id="leftInfo" class="infoBox">
+        <div id="leftInfo">
 
             <div id="infoName" class="infoContainer">
                 <div class="infoPokeball"></div>
@@ -92,24 +98,17 @@
 
     <div id="rightInfoWrapper">
         <div id="rightInfoBuffer"></div>
-        <div id="rightInfo" class="infoBox"></div>
-    </div>
+        <div id="rightInfo">
 
-    <div id="searchInput">
-        <input id="searchBox" type="text" spellcheck="false">
-        <div id="hintText"></div>
-    </div>
-
-    <div id="bottomInfo">
-
-        <div id="infoTypes" class="infoContainer">
-            <div class="infoPokeball"></div>
-            <div class="infoBar">
-                <span class="infoName">Types:</span>
-                <span class="infoData"></span>
+            <div id="infoTypes" class="infoRightContainer">
+                <div class="infoPokeball rightInfoContainer"></div>
+                <div class="infoBar infoRightBar">
+                    <span class="infoRightName">Types:</span>
+                    <span class="infoData infoRightData"></span>
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
 
 </body>

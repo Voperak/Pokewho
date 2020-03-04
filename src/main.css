@@ -48,16 +48,17 @@ body {
 }
 
 
-
 #leftInfoWrapper {
-    position: absolute;
+    position: relative;
+    float: left;
     width: 50%;
+    z-index: 0;
 }
 
 #leftInfoBuffer {
     float: right;
     width: 16vmin;
-    height: calc(52vmin + 5em);
+    height: calc(52vmin);
 }
 
 #leftInfo {
@@ -66,11 +67,12 @@ body {
     width: min-content;
 }
 
-
 #rightInfoWrapper {
-    position: absolute;
-    right: 0;
+    position: relative;
+    float: right;
     width: 50%;
+    z-index: 0;
+    outline: 5px blue dashed;
 }
 
 #rightInfoBuffer {
@@ -80,7 +82,13 @@ body {
 }
 
 #rightInfo {
+    position: relative;
+    display: inline-block;
+    width: min-content;
+    float: right;
+    outline: 3px red solid;
 }
+
 
 /* Left info*/
 .infoContainer {
@@ -88,6 +96,19 @@ body {
     width: min-content;
     display: block;
     left: -3em;
+    margin-top: 1.5em;
+
+    font-family: pixelFont, serif;
+    font-size: 1.2em;
+    white-space: nowrap;
+}
+
+.infoRightContainer {
+    position: relative;
+    width: min-content;
+    display: block;
+    float: right;
+    right: -3em;
     margin-top: 1.5em;
 
     font-family: pixelFont, serif;
@@ -140,6 +161,10 @@ body {
     animation-fill-mode: both;
 }
 
+.infoRightBar {
+    float: right;
+}
+
 .infoName {
     position: relative;
     display: inline;
@@ -156,6 +181,23 @@ body {
     display: inline;
     padding-right: .2em;
     margin-right: 2em;
+}
+
+.infoRightName {
+    position: relative;
+    display: inline;
+    width: 100%;
+
+    padding-left: .4em;
+    margin-left: 2.4em;
+    color: rgba(0, 0, 0, .85);
+    text-shadow:white 0 0 5px, white 1px 1px 0;
+}
+
+.infoRightData {
+    padding-right: .2em;
+    margin-right: 3.5em;
+
 }
 
 /* Stats table */
@@ -203,28 +245,34 @@ body {
     padding-right: 2.2em;
 }
 
-/* Bottom info */
+/* Right side info */
 #infoTypes {
-    top: 2em;
-}
 
-#bottomInfo {
-    position: relative;
-    display: block;
+    outline: 6px green solid;
 
-    width: 100%;
-    height: calc(50% - (4.2em + 30px));
-
-    outline: crimson 5px solid;
 }
 
 
+
+/* Big Pokeball */
+#pokeballWrapper {
+    position: absolute;
+    overflow: visible;
+
+    width: 32vmin;
+
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+
+    outline: 5px red solid;
+}
 
 /* Search/hint */
 #searchInput {
-    position: absolute;
+    position: relative;
     width: 75vw;
-    top: calc(52vmin);
     left: 50%;
     transform: translateX(-50%);
 }
@@ -273,20 +321,14 @@ body {
     font-size: larger;
 }
 
-
-
-/* Big Pokeball */
-#pokeBall {
-    position: absolute;
+/* Pokeball */
+#pokeball {
+    position: relative;
 
     width: 32vmin;
     height: 52vmin;
 
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-
-    outline: 5px red solid;
+    outline: 3px blue solid;
 }
 
 .pokeball {
@@ -401,24 +443,13 @@ body {
     0% {
         width: 100%;
     }
-    99.999% {
-        background-color: rgba(255,0,0,.5);
-        border-color: rgba(55, 71, 79, 1);
-        box-shadow: .3em .3em .3em rgba(0,0,0,.4);
-    }
     100% {
         width: 0;
-        background-color: rgba(255,0,0,0);
-        border-color: rgba(55, 71, 79, 0);
-        box-shadow: .3em .3em .3em rgba(0,0,0,0);
     }
 }
 
 @keyframes openInfoBar {
     0% {
-        background-color: rgba(255,0,0,.5);
-        border-color: rgba(55, 71, 79, 1);
-        box-shadow: .3em .3em .3em rgba(0,0,0,.4);
         width: 0;
     }
     100%{
@@ -432,6 +463,15 @@ body {
 
 .closeRollPokeball {
     animation-name: closeRollPokeball;
+}
+
+/* Right side */
+.openRightRollPokeball {
+    animation-name: openRightRollPokeball;
+}
+
+.closeRightRollPokeball {
+    animation-name: closeRightRollPokeball;
 }
 
 /* Roll pokeball animation */
@@ -452,5 +492,25 @@ body {
     100% {
         right: calc(-1.4em + 100%);
         transform: rotate(-720deg);
+    }
+}
+
+@keyframes openRightRollPokeball {
+    0% {
+        left: calc(-1.4em + 100%);
+    }
+    100% {
+        right: calc(-1.4em + 100%);
+        transform: rotate(-720deg);
+    }
+}
+
+@keyframes closeRightRollPokeball {
+    0% {
+        right: calc(-1.4em + 100%);
+    }
+    100% {
+        left: calc(-1.4em + 100%);
+        transform: rotate(720deg);
     }
 }
