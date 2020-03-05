@@ -26,8 +26,6 @@ body {
     height: 100%;
     width: 100%;
 
-    overflow-x: hidden;
-
     background-image: url("../resources/background.jpg");
     background-repeat: repeat-x;
     background-size: auto 100%;
@@ -107,7 +105,6 @@ body {
     width: min-content;
     display: block;
     float: right;
-    right: -3em;
     margin-top: 1.5em;
 
     font-family: pixelFont, serif;
@@ -262,6 +259,7 @@ body {
     position: relative;
     display: block;
     margin-top: 2.5em;
+    right: -3em;
     margin-bottom: 1.5em;
     width: fit-content;
     font-size: 1.2em;
