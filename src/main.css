@@ -185,6 +185,7 @@ body {
     position: relative;
     display: inline;
     width: 100%;
+    white-space: nowrap !important;
 
     padding-left: .4em;
     margin-left: 2.4em;
@@ -253,6 +254,90 @@ body {
 
     padding-right: .2em;
 }
+
+
+/* Attack Stats */
+#infoAttackListWrapper {
+    position: relative;
+    display: block;
+    margin-top: 2.5em;
+    margin-bottom: 1.5em;
+    width: fit-content;
+    font-size: 1.2em;
+}
+
+#infoAttackOptionsContainer {
+    display: inline-block;
+    margin-bottom: .5em;
+}
+
+#infoAttackListOptions {
+    position: relative;
+    display: inline-block;
+    height: 2em;
+    width: auto;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-right: 4em;
+    margin-top: .3em;
+    left: -.5em;
+
+
+    background-color: rgba(255,120,120,.7);
+    border: .2em solid rgba(55, 71, 79, 1);
+    border-radius: 1.5em;
+    outline: none;
+
+    font-family: pixelFont, serif;
+    font-size: 1em;
+    color: lightgoldenrodyellow;
+    text-shadow:
+            2px 2px 4px dimgray,
+            2px 2px 2px black;
+
+
+}
+
+#infoAttackList {
+    overflow: hidden;
+    width: auto;
+
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+
+    background-color: rgba(255,0,0,.5);
+    border: .2em solid rgba(55, 71, 79, 1);
+    border-radius: 1.5em;
+    box-shadow:.3em .3em .3em rgba(0,0,0,.4);
+}
+
+#infoAttackTable {
+    position: relative;
+    margin-right: 3em;
+    left: -1.5em;
+}
+
+#infoAttackListHeader {
+    padding-left: 3em;
+    border-bottom: .2em solid rgba(55, 71, 79, 1);
+    padding-bottom: .4em;
+}
+
+.infoWrapData {
+    white-space: pre-wrap;
+}
+
+#infoAttackFT {
+    float: left;
+    margin-right: -5em;
+    margin-top: .5em;
+    margin-bottom: .5em;
+    transform: translateX(2em);
+    max-width: calc(50vw);
+    word-wrap: break-word !important;
+}
+
 
 
 

@@ -14,6 +14,14 @@ function firstClass(parentElement, classPath = []) {
 
 window.onload=function() {
 
+    // Dynamic CSS sheets
+    const cloudCSS = document.createElement("style");
+    const questionCSS = document.createElement("style");
+    const animationCSS = document.createElement("style");
+    document.head.appendChild(cloudCSS);
+    document.head.appendChild(questionCSS);
+    document.head.appendChild(animationCSS);
+
     // General divs
     const userInput = getE("searchBox"),
         topBall = getE("topBall"),
@@ -21,9 +29,28 @@ window.onload=function() {
         hintText = getE("hintText"),
         qMarksLeft = getE("questionMarks1"),
         qMarksRight = getE("questionMarks2"),
-        cloudsContainerDiv = getE("clouds"); // Cloud effect container
+        cloudsContainerDiv = getE("clouds"), // Cloud effect container
+        attackOptionList = getE("infoAttackListOptions");
 
-    // Starting stat data divs
+    // Attack stat divs
+    const infoAttackFT = getE("infoAttackFT"),
+        infoAttackAcc = getE("infoAttackAccuracy"),
+        infoAttackPP = getE("infoAttackPP"),
+        infoAttackPower = getE("infoAttackPower"),
+        infoAttackType = getE("infoAttackType");
+
+    let openSearch = false, // Prevent enter key after searching when ball was open (prevent multiple enter hits)
+        isBallOpen = false, // Ball control
+        isBallMoving = false,
+        statsCurrentlyOpen = false;
+
+    let pokeData; // JSON Data
+    let pokeAttackAPI = {
+        "cached" : {},
+        "urls" : {},
+    }; // Attack request to URL for API
+
+    // Starting stats data divs
     let statsTable = {
         "container" : getE("infoStatsContainer"),
         "ball" : firstClass(getE("infoStatsWrapper"), ["infoPokeball"]),
@@ -35,25 +62,6 @@ window.onload=function() {
         "special-defense" : getE("infoSpecDefense"),
     };
 
-    let pokeData; // JSON Data
-
-    let openSearch = false, // Prevent enter key after searching when ball was open (prevent multiple enter hits)
-        isBallOpen = false, // Ball control
-        isBallMoving = false,
-        statsCurrentlyOpen = false;
-
-
-
-    // Dynamic CSS vars
-    const cloudCSS = document.createElement("style");
-    const questionCSS = document.createElement("style");
-    const animationCSS = document.createElement("style");
-    document.head.appendChild(cloudCSS);
-    document.head.appendChild(questionCSS);
-    document.head.appendChild(animationCSS);
-
-
-
     // Element ID, int delay multiplier
     let pokemonStats = {
         "infoName" : 1,
@@ -62,7 +70,7 @@ window.onload=function() {
         "infoTypes" : 1,
     };
 
-    // Pokemon stat object table
+    // Generate stat element data
     function createStats(nameID = []) {
 
         let statData = [];
@@ -310,6 +318,48 @@ window.onload=function() {
         }
     }
 
+    // Start API for getting attack stats
+    function requestAttackData(apiURL, name) {
+        fetch(pokeAttackAPI.urls[apiURL], {method: "GET"})
+            .then(function(response) {
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    console.log("Could not get attack stats....");
+                }
+                return response.json();
+            })
+            .then(function(data) {
+
+                pokeAttackAPI.cached[apiURL] = data;
+                updateAttackStats(apiURL);
+
+            })
+            .catch(function() {
+                if (!contentType || !contentType.includes('application/json')) return;
+                console.log("Something went wrong that wasn't to do with the headers/content type....")
+            });
+    }
+
+    // Update attack stats to current attack
+    function updateAttackStats(attackName) {
+
+        let stats = pokeAttackAPI.cached[attackName];
+
+        let flavortext = "Nothing here....";
+        stats.flavor_text_entries.forEach(function(node) {
+           if (node.language.name === "en") {
+               flavortext = node.flavor_text;
+           }
+        });
+
+        infoAttackFT.innerHTML = flavortext;
+        infoAttackAcc.innerHTML = stats.accuracy;
+        infoAttackPP.innerHTML = stats.pp;
+        infoAttackPower.innerHTML = stats.power;
+        infoAttackType.innerHTML = stats.type.name;
+
+    }
+
     // Auto close ball timer
     let closeTime = 10;
     let curIsError = false;
@@ -348,8 +398,20 @@ window.onload=function() {
         pokeTypes = pokeTypes.slice(0, -2);
         pokemonStats["infoTypes"]["Data"].innerHTML = pokeTypes;
 
+        // Starting stats
         pokeData.stats.forEach(function(node) {
             statsTable[node.stat.name].innerHTML = node.base_stat;
+        });
+
+        // Attack stats
+        attackOptionList.innerHTML = "";
+        pokeData.moves.forEach(function(node) {
+            let attName = node.move.name;
+            if (!(pokeAttackAPI.urls[name])) pokeAttackAPI.urls[node.move.name] = node.move.url;
+            let tempOption = document.createElement("option");
+            tempOption.setAttribute("value", attName);
+            tempOption.innerHTML = attName;
+            attackOptionList.appendChild(tempOption);
         });
     }
 
@@ -517,4 +579,14 @@ window.onload=function() {
         }
     })
 
+    // Event for updating attack information when changed
+    attackOptionList.onchange = function() {
+        let newAttack = this.value;
+        if (pokeAttackAPI.cached[newAttack]) {
+            updateAttackStats(newAttack)
+        } else {
+            requestAttackData(newAttack);
+        }
+
+    }
 };
