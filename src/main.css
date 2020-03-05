@@ -26,6 +26,8 @@ body {
     height: 100%;
     width: 100%;
 
+    overflow-x: hidden;
+
     background-image: url("../resources/background.jpg");
     background-repeat: repeat-x;
     background-size: auto 100%;
@@ -35,7 +37,6 @@ body {
     animation-iteration-count: infinite;
     animation-duration: 40s;
     animation-name: backgroundScroll;
-
 }
 
 @keyframes backgroundScroll {
@@ -300,7 +301,9 @@ body {
 
 #infoAttackList {
     overflow: hidden;
-    width: auto;
+    max-height: .9em;
+
+    direction: ltr;
 
     animation-duration: 1s;
     animation-timing-function: ease-in-out;
@@ -314,7 +317,7 @@ body {
 
 #infoAttackTable {
     position: relative;
-    margin-right: 3em;
+    margin-right: 2em;
     left: -1.5em;
 }
 
@@ -330,11 +333,11 @@ body {
 
 #infoAttackFT {
     float: left;
-    margin-right: -5em;
     margin-top: .5em;
     margin-bottom: .5em;
-    transform: translateX(2em);
+    transform: translateX(3em);
     max-width: calc(50vw);
+    width: 120%;
     word-wrap: break-word !important;
 }
 
@@ -541,6 +544,36 @@ body {
     100% {
         width: 0;
         max-height: 1.6em;
+    }
+}
+
+@keyframes openInfoAttack {
+    0% {
+        width: 0;
+        max-height: .9em;
+    }
+    75% {
+        width: 100%;
+        max-height: .9em;
+    }
+    100% {
+        width: 100%;
+        max-height: 20em;
+    }
+}
+
+@keyframes closeInfoAttack {
+    0% {
+        width: 100%;
+        max-height: 20em;
+    }
+    25% {
+        width: 100%;
+        max-height: .9em;
+    }
+    100% {
+        width: 0;
+        max-height: .9em;
     }
 }
 

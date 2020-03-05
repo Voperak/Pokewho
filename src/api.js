@@ -33,11 +33,17 @@ window.onload=function() {
         attackOptionList = getE("infoAttackListOptions");
 
     // Attack stat divs
-    const infoAttackFT = getE("infoAttackFT"),
+    const infoAttackFT = getE("infoAttackFT"), // Flavor text
         infoAttackAcc = getE("infoAttackAccuracy"),
         infoAttackPP = getE("infoAttackPP"),
         infoAttackPower = getE("infoAttackPower"),
         infoAttackType = getE("infoAttackType");
+
+    // Attack container divs
+    let atkOptions = {
+        "container" : getE("infoAttackList"),
+        "ball" : firstClass(getE("infoAttackListWrapper"), ["infoPokeball"]),
+    };
 
     let openSearch = false, // Prevent enter key after searching when ball was open (prevent multiple enter hits)
         isBallOpen = false, // Ball control
@@ -413,12 +419,11 @@ window.onload=function() {
             tempOption.innerHTML = attName;
             attackOptionList.appendChild(tempOption);
         });
+        attackOptionList.onchange(null);
     }
 
     // Open Pokemon Stats
     function openStats() {
-
-        console.log(pokeData.moves);
 
         if (statsCurrentlyOpen) return;
 
@@ -455,6 +460,15 @@ window.onload=function() {
         void statsTable.ball.offsetWidth;
         void statsTable.container.offsetWidth;
 
+        // Attack List Custom Animation
+        atkOptions.ball.style.animationDelay = ".25s";
+        atkOptions.container.style.animationDelay =  ".25s";
+
+        atkOptions.ball.style.animationName = "openRightRollPokeball";
+        atkOptions.container.style.animationName = "openInfoAttack";
+        void atkOptions.ball.offsetWidth;
+        void atkOptions.container.offsetWidth;
+
         statsCurrentlyOpen = true;
     }
 
@@ -490,6 +504,14 @@ window.onload=function() {
         statsTable.container.style.animationName = "closeInfoStats";
         void statsTable.ball.offsetWidth;
         void statsTable.container.offsetWidth;
+
+        // Attack List Custom Animation
+        atkOptions.container.style.animationDelay =  "0s";
+
+        atkOptions.ball.style.animationName = "closeRightRollPokeball";
+        atkOptions.container.style.animationName = "closeInfoAttack";
+        void atkOptions.ball.offsetWidth;
+        void atkOptions.container.offsetWidth;
 
         statsCurrentlyOpen = false
     }
@@ -577,7 +599,7 @@ window.onload=function() {
                 }
             }
         }
-    })
+    });
 
     // Event for updating attack information when changed
     attackOptionList.onchange = function() {
